@@ -1,0 +1,45 @@
+{
+  "name": "es6-cachemanager",
+  "description": "A basic cache manager implementation",
+  "keywords": [
+    "cache",
+    "caching",
+    "es6",
+    "manager"
+  ],
+  "version": "0.0.1",
+  "homepage": "",
+  "author": "Eser Ozvataf <eser@ozvataf.com>",
+  "contributors": [
+    {
+      "name": "Eser Ozvataf",
+      "email": "eser@ozvataf.com",
+      "url": "http://eser.ozvataf.com/"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eserozvataf/es6-cachemanager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eserozvataf/es6-cachemanager/issues",
+    "email": "eser@ozvataf.com"
+  },
+  "license": "Apache-2.0",
+  "main": "./lib/index.js",
+  "module": "./lib/esm.js",
+  "types": "./lib/index.d.ts",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {},
+  "directories": {
+    "lib": "./lib"
+  },
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "bin": {},
+  "dependencies": {}
+}
