@@ -1,11 +1,11 @@
 class CacheManager {
-    items: { [key: string]: any };
+    items: Map<string, any>;
 
     constructor() {
-        this.items = {};
+        this.items = new Map<string, any>();
     }
 
-    static promisifyCall(callback): Promise<any> {
+    static promisifyCall(callback: () => any): Promise<any> {
         try {
             const result = callback();
 
@@ -20,8 +20,16 @@ class CacheManager {
         }
     }
 
-    getDirect(key, ttl = 0): any {
-        const result = this.items[key];
+    static serializeKey(key: string|Array<string>): string {
+        if (Array.isArray(key)) {
+            return key.join('_');
+        }
+
+        return key;
+    }
+
+    getDirect(key: string|Array<string>, ttl: number = 0): any {
+        const result = this.items.get(CacheManager.serializeKey(key));
 
         if (result === undefined) {
             return null;
@@ -34,20 +42,20 @@ class CacheManager {
         return result.value;
     }
 
-    setDirect(key, value): void {
+    setDirect(key: string|Array<string>, value: any): void {
         const data = {
             updatedAt: Date.now(),
-            value: value
+            value: value,
         };
 
-        this.items[key] = data;
+        this.items.set(CacheManager.serializeKey(key), data);
     }
 
-    invalidate(key): void {
-        delete this.items[key];
+    invalidate(key: string|Array<string>): void {
+        this.items.delete(CacheManager.serializeKey(key));
     }
 
-    get(key, callback, ttl = 0): any {
+    get(key: string|Array<string>, callback: () => any, ttl: number = 0): any {
         const result = this.getDirect(key, ttl);
 
         if (result !== null) {
@@ -61,7 +69,7 @@ class CacheManager {
         return newItem;
     }
 
-    cached(cacheKey, ttl = 0) {
+    cached(cacheKey: string|Array<string>, ttl: number = 0) {
         return (target, name, descriptor) => {
             const fn = descriptor.value;
 
